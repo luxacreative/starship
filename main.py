@@ -2,6 +2,11 @@ import pygame
 import sys
 import time
 from datetime import datetime
+import os
+
+# Set up the display
+screen = pygame.display.set_mode((800, 600))
+pygame.display.set_caption('Starship')
 
 
 # Initialize Pygame
@@ -17,6 +22,17 @@ debug = True
 
 clock = pygame.time.Clock()
 FPS = 60
+
+current_path = os.path.dirname(__file__)
+starship_path = os.path.join(current_path, 'sprites', 'starship.png')
+
+try:
+    starship_s = pygame.image.load(starship_path).convert_alpha()
+except pygame.error as e:
+    print(f"Failed to load starship.png: {e}")
+    pygame.quit()
+    sys.exit()
+
 
 
 class player:
@@ -61,16 +77,12 @@ class player:
 starship = player("Starship", 100, 10, 0, 0, 5)
 
 #Player visual
-
 player_color = (0,255,0)
 player_size=50
 starship.x = 400
 starship. y = 100
 
 
-# Set up the display
-screen = pygame.display.set_mode((800, 600))
-pygame.display.set_caption('Starship')
 
 # Load a font
 font = pygame.font.SysFont(None, 55)
@@ -138,7 +150,9 @@ while True:
 
   # Update the display
     
-    pygame.draw.rect(screen, player_color, (starship.x, starship.y, player_size, player_size))
+    
+    #pygame.draw.rect(screen, player_color, (starship.x, starship.y, player_size, player_size))
+    screen.blit(starship_s, (starship.x, starship.y))
     pygame.display.flip()
 
     clock.tick(FPS)

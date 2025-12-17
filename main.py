@@ -4,12 +4,21 @@ import time
 from datetime import datetime
 import os
 
+#loading settings
+settings = open(r"settings.txt","r+")
+settings.seek(0)
+first_line = settings.readline().strip()
+
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 
 # Set up the display
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption('Starship')
+
+
+
+
 
 
 # Initialize Pygame
@@ -22,8 +31,10 @@ last_shoot = 2
 now = 1
 
 #if this variable is True, then debug mode will be active
-debug = True
-
+debug = False  #
+if first_line.startswith("DEBUGMODE="):
+    debug = first_line.split("=")[1].lower() == "true"
+ 
 clock = pygame.time.Clock()
 FPS = 60
 
@@ -60,7 +71,7 @@ except pygame.error as e:
     print(f"Failed to load bg.png: {e}")
     pygame.quit()
     sys.exit()
-
+ 
 
 
 bg_s = pygame.transform.scale(bg_s, (SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -74,17 +85,16 @@ class bullet:
         self.scale = scale
         self.x = x
         self.y = starship.y +40 
+    
+    #This function is broken - It loops and crashes the procces, does not work as intended
 
      def bulletMove(self):
         start_x = starship.x 
 
-        
-        if not (self.x + 50 > SCREEN_WIDTH or self.x < 0):
-            self.y += 29
-
-            while(self.y < SCREEN_WIDTH):
+        while(self.y < SCREEN_HEIGHT):    
+            if not (self.x + 50 > SCREEN_WIDTH or self.x < 0):
+                self.y += 29
                 screen.blit(bullet01_sprite_rotated, (start_x, self.y))
-
 
 
 

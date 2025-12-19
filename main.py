@@ -16,11 +16,6 @@ SCREEN_HEIGHT = 600
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption('Starship')
 
-
-
-
-
-
 # Initialize Pygame
 pygame.init()
 pygame.font.init()
@@ -31,7 +26,7 @@ last_shoot = 2
 now = 1
 
 #if this variable is True, then debug mode will be active
-debug = False  #
+debug = False  
 if first_line.startswith("DEBUGMODE="):
     debug = first_line.split("=")[1].lower() == "true"
  
@@ -77,25 +72,25 @@ except pygame.error as e:
 bg_s = pygame.transform.scale(bg_s, (SCREEN_WIDTH, SCREEN_HEIGHT))
 bullet01_sprite_rotated = pygame.transform.rotate(bullet01_s, 270)
 
-#new function for spawning bullet and moving it to end of screen OR until it hits an enemy
+#class bullet
 
 class bullet:
-     def __init__(self, name, scale, x, y,):
+    def __init__(self, name, scale, x, y,):
         self.name = name
         self.scale = scale
         self.x = x
         self.y = starship.y +40 
     
-    #This function is broken - It loops and crashes the procces, does not work as intended
-
-     def bulletMove(self):
+    #This function is broken - It spawns lots of sprites one time and then it will not do anything, does not work as intended
+    
+    def bulletMove(self):
         start_x = starship.x 
-
+        
         while(self.y < SCREEN_HEIGHT):    
             if not (self.x + 50 > SCREEN_WIDTH or self.x < 0):
                 self.y += 29
                 screen.blit(bullet01_sprite_rotated, (start_x, self.y))
-
+        
 
 
 #class player
@@ -206,7 +201,7 @@ while True:
 
 
 
-  # Blit the text onto the screen
+  # Draw the text onto the screen
     if debug == True:
         screen.blit(text_rotated, (250, 250))
   

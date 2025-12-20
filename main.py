@@ -4,6 +4,9 @@ import time
 from datetime import datetime
 import os
 
+#import loading     #
+
+
 #loading settings
 settings = open(r"settings.txt","r+")
 settings.seek(0)
@@ -67,8 +70,6 @@ except pygame.error as e:
     pygame.quit()
     sys.exit()
  
-
-
 bg_s = pygame.transform.scale(bg_s, (SCREEN_WIDTH, SCREEN_HEIGHT))
 bullet01_sprite_rotated = pygame.transform.rotate(bullet01_s, 270)
 
@@ -83,11 +84,9 @@ class bullet:
     def update(self):
         start_x = starship.x
         self.y += self.speed
-        screen.blit(bullet01_sprite_rotated, (start_x, self.y))
-        
+        screen.blit(bullet01_sprite_rotated, (start_x, self.y))  
 
 #class player
-
 class player:
     
     def __init__(self, name, hp, scale, x, y, speed, heading):
@@ -107,21 +106,21 @@ class player:
             now.minute * 60 +
             now.second 
         )
+
         bullets.append(bullet(self.x + 20, self.y + 40))
-        if debug == True:
-            print(last_shoot)
-            print(f"{self.name} attacked")
-        colour = (0, 0, 255)
         
+        colour = (0, 0, 255)
         start_x = self.x 
         start_y = self.y + 10
         end_x = self.x 
-        end_y = self.y + 400    
-        bullet.update(self)
-        pygame.draw.line(screen, colour , [start_x, start_y], [end_x, end_y])
+        end_y = self.y + 400
 
+        if debug == True:
+            print(last_shoot)
+            print(f"{self.name} attacked")
+            pygame.draw.line(screen, colour , [start_x, start_y], [end_x, end_y])
+        bullet.update(self)
         
-    
     def moveA(self):
         self.x -= self.speed
         if debug == True:
@@ -173,7 +172,7 @@ while True:
         now.minute * 60 +
         now.second 
     )
-    
+
     #if (time_now - last_shoot) > 0.5:
     if keys[pygame.K_SPACE]:
         starship.shooting() 

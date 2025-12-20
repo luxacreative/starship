@@ -83,7 +83,7 @@ class bullet:
     
     #This function is broken - It spawns lots of sprites one time and then it will not do anything, does not work as intended
     
-    def bulletMove(self):
+    def bulletMove(self): #I want it to shot a bullet which moves until it hits an enemy or the lowest side of the screen.
         start_x = starship.x 
         
         while(self.y < SCREEN_HEIGHT):    
@@ -113,8 +113,9 @@ class player:
             now.minute * 60 +
             now.second 
         )
-        print(last_shoot)
-        print(f"{self.name} attacked")
+        if debug == True:
+            print(last_shoot)
+            print(f"{self.name} attacked")
         colour = (0, 0, 255)
         
         start_x = self.x 
@@ -128,11 +129,13 @@ class player:
     
     def moveA(self):
         self.x -= self.speed
-        print("x is",self.x)
+        if debug == True:
+            print("x is",self.x)
 
     def moveD(self):
         self.x += self.speed
-        print("x is",self.x)
+        if debug == True:
+            print("x is",self.x)
 
 
 
@@ -198,8 +201,6 @@ while True:
     
     while(starship.x < 0):
         starship.x += 25
-
-
 
   # Draw the text onto the screen
     if debug == True:

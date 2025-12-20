@@ -1,2 +1,2 @@
-DEBUGMODE=false
+DEBUGMODE=True
 

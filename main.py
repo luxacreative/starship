@@ -27,7 +27,7 @@ now = 1
 
 #if this variable is True, then debug mode will be active
 debug = False  
-if first_line.startswith("DEBUGMODE="):
+if first_line.startswith("DEBUGMODE="):     #this verifies what the value of DEBUGMODE and set it to debug
     debug = first_line.split("=")[1].lower() == "true"
  
 clock = pygame.time.Clock()
@@ -75,27 +75,21 @@ bullet01_sprite_rotated = pygame.transform.rotate(bullet01_s, 270)
 #class bullet
 
 class bullet:
-    def __init__(self, name, scale, x, y,):
-        self.name = name
-        self.scale = scale
+    def __init__(self, x, y, speed=5):
         self.x = x
         self.y = starship.y +40 
-    
-    #This function is broken - It spawns lots of sprites one time and then it will not do anything, does not work as intended
-    
-    def bulletMove(self): #I want it to shot a bullet which moves until it hits an enemy or the lowest side of the screen.
-        start_x = starship.x 
-        
-        while(self.y < SCREEN_HEIGHT):    
-            if not (self.x + 50 > SCREEN_WIDTH or self.x < 0):
-                self.y += 29
-                screen.blit(bullet01_sprite_rotated, (start_x, self.y))
-        
+        self.speed = speed
 
+    def update(self):
+        start_x = starship.x
+        self.y += self.speed
+        screen.blit(bullet01_sprite_rotated, (start_x, self.y))
+        
 
 #class player
 
 class player:
+    
     def __init__(self, name, hp, scale, x, y, speed, heading):
         self.name = name
         self.hp = hp
@@ -113,6 +107,7 @@ class player:
             now.minute * 60 +
             now.second 
         )
+        bullets.append(bullet(self.x + 20, self.y + 40))
         if debug == True:
             print(last_shoot)
             print(f"{self.name} attacked")
@@ -122,7 +117,7 @@ class player:
         start_y = self.y + 10
         end_x = self.x 
         end_y = self.y + 400    
-        bullet01.bulletMove()
+        bullet.update(self)
         pygame.draw.line(screen, colour , [start_x, start_y], [end_x, end_y])
 
         
@@ -137,11 +132,9 @@ class player:
         if debug == True:
             print("x is",self.x)
 
-
-
-
+#define player and bullet:
 starship = player("Starship", 100, 10, 0, 0, 5, 180)
-bullet01 = bullet("Bullet", 10, 0, 0)
+#bullet01 = bullet("Bullet", 10, 0, 0, 5)
 
 #Player visual
 player_color = (0,255,0)
@@ -154,14 +147,14 @@ starship.y = 100
 # Load a font
 font = pygame.font.SysFont(None, 55)
 
-# Render the text 
+# Prepare the text 
 text_surface = font.render("DEBUG MODE", True, (255, 255, 255))
 text_surface.set_alpha(128)
-
 text_rotated = pygame.transform.rotate(text_surface, -45)
 
-# Main game loop
+bullets = []
 
+# Main game loop
 while True:
 
     for event in pygame.event.get():
@@ -172,7 +165,6 @@ while True:
    # Fill the screen with a color (RGB)
     screen.blit(bg_s, (0, 0))
 
-
     #Attack/Move
     keys = pygame.key.get_pressed()
     now = datetime.now()
@@ -181,19 +173,17 @@ while True:
         now.minute * 60 +
         now.second 
     )
-    if (time_now - last_shoot) > 0.5:
-        if keys[pygame.K_SPACE]:
-            starship.shooting() 
+    
+    #if (time_now - last_shoot) > 0.5:
+    if keys[pygame.K_SPACE]:
+        starship.shooting() 
 
     
     if keys[pygame.K_a]:
         starship.moveA()
-        #time.sleep(0.25)
 
-    
     if keys[pygame.K_d]:
         starship.moveD()
-        #time.sleep(0.5)
 
     #if the player touches the edge, bounce them back
     while(starship.x + 50 > 800):

@@ -108,7 +108,6 @@ class player:
         )
 
         bullets.append(bullet(self.x + 20, self.y + 40))
-        
         colour = (0, 0, 255)
         start_x = self.x 
         start_y = self.y + 10
@@ -131,9 +130,9 @@ class player:
         if debug == True:
             print("x is",self.x)
 
-#define player and bullet:
+#define player:
 starship = player("Starship", 100, 10, 0, 0, 5, 180)
-#bullet01 = bullet("Bullet", 10, 0, 0, 5)
+
 
 #Player visual
 player_color = (0,255,0)

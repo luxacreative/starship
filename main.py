@@ -4,8 +4,6 @@ import time
 from datetime import datetime
 import os
 
-#import loading     #
-
 
 #loading settings
 settings = open(r"settings.txt","r+")
@@ -77,21 +75,20 @@ bullet01_sprite_rotated = pygame.transform.rotate(bullet01_s, 270)
 
 class bullet:
     def __init__(self, x, y, speed=5):
-        self.x = x
-        self.y = starship.y +40 
+        self.x = starship.x - 100
+        self.y = starship.y + 40 
         self.speed = speed
 
-    def update(self):
-        start_x = starship.x
-        self.y += self.speed
-        screen.blit(bullet01_sprite_rotated, (start_x, self.y))  
+    def update(self):   #this function spawns a lot of bullets and move down
+        self.y += self.speed    #and the bullets dont get cleared from the screen
+        screen.blit(bullet01_sprite_rotated, (self.x, self.y))
+
 
 #class player
 class player:
     
-    def __init__(self, name, hp, scale, x, y, speed, heading):
+    def __init__(self, name, scale, x, y, speed, heading):
         self.name = name
-        self.hp = hp
         self.scale = scale
         self.x = x
         self.y = y
@@ -118,7 +115,8 @@ class player:
             print(last_shoot)
             print(f"{self.name} attacked")
             pygame.draw.line(screen, colour , [start_x, start_y], [end_x, end_y])
-        bullet.update(self)
+        for b in bullets:
+            b.update()
         
     def moveA(self):
         self.x -= self.speed
@@ -131,7 +129,7 @@ class player:
             print("x is",self.x)
 
 #define player:
-starship = player("Starship", 100, 10, 0, 0, 5, 180)
+starship = player("Starship", 100, 0, 0, 5, 180)
 
 
 #Player visual

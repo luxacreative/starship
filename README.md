@@ -5,5 +5,5 @@ A simple 90s arcade game about a starship shooting aliens in space made in Pytho
 
 # Known Issues:
 
-Shooting makes the player move along the bullet
+Shooting spawns a lot of bullet sprites
 -

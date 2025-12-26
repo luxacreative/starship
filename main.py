@@ -3,8 +3,7 @@ import sys
 import time
 from datetime import datetime
 import os
-import classes
-import loader
+from extra import classes, loader
 
 # Set up the display
 pygame.display.set_caption('Starship')
@@ -15,11 +14,6 @@ pygame.font.init()
 loader.load()
 
 starship_s, bullet01_sprite_rotated, bg_s = loader.load()
-
-x = 0
-y = 0
-last_shoot = 2
-now = 1
 
 clock = pygame.time.Clock()
 FPS = 60

@@ -3,7 +3,7 @@ import sys
 import time
 from datetime import datetime
 import os
-import loader
+from . import loader
 
 bullets = []
 starship_s, bullet01_sprite_rotated, bg_s = loader.load()
